@@ -1,0 +1,21 @@
+[Unit]
+Description=EduZen Django Gunicorn Server
+After=network.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/eduzen
+EnvironmentFile=/home/ubuntu/eduzen/.env
+ExecStart=/home/ubuntu/eduzen/venv/bin/gunicorn \
+    --workers 3 \
+    --bind 127.0.0.1:8000 \
+    --timeout 120 \
+    --access-logfile /var/log/eduzen/access.log \
+    --error-logfile /var/log/eduzen/error.log \
+    eduzen.wsgi:application
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
